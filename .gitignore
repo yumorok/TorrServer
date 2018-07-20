@@ -10,3 +10,14 @@
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+
+TorrServer.iml
+.idea/
+
+src/github.com/
+src/golang.org/
+src/bazil.org/
+src/gopkg.in/
+pkg/
+bin/
+dist/
