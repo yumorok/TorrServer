@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 	"sync"
+	"time"
 
 	"server/search/parser"
 )
@@ -16,6 +17,7 @@ func Search(query string, filterStrings []string) []*parser.Torrent {
 	wa.Add(3)
 	go func() {
 		lst, err := parser.NewRutor().Search(query)
+		fmt.Println("End rutor")
 		if err != nil {
 			fmt.Println("Rutor search err:", err)
 			return
@@ -28,6 +30,7 @@ func Search(query string, filterStrings []string) []*parser.Torrent {
 
 	go func() {
 		lst, err := parser.NewYHH().Search(query)
+		fmt.Println("End YHH")
 		if err != nil {
 			fmt.Println("Yohoho search err:", err)
 			return
@@ -40,6 +43,7 @@ func Search(query string, filterStrings []string) []*parser.Torrent {
 
 	go func() {
 		lst, err := parser.NewTParser().Search(query)
+		fmt.Println("End TParser")
 		if err != nil {
 			fmt.Println("TParser search err:", err)
 			return
@@ -50,7 +54,13 @@ func Search(query string, filterStrings []string) []*parser.Torrent {
 		wa.Done()
 	}()
 	wa.Wait()
-	return filter(list, append(filterStrings, query))
+	filterStrings = append(filterStrings, query)
+	fmt.Println("Filtering...", filterStrings)
+	start := time.Now()
+	defer func() {
+		fmt.Println("End filtering", time.Since(start).Seconds())
+	}()
+	return filter(list, filterStrings)
 }
 
 func filter(list []*parser.Torrent, filterStrings []string) []*parser.Torrent {
