@@ -500,7 +500,7 @@ var searchPage = `
 			$('#loader').fadeIn(700);
 			
 			var filter = [];
-			if (Year && !Season && !SeasonsCount)
+			if (Year && !Season && !(+SeasonsCount))
 				filter.push(Year);
 			if (Season){
 				var ses = Season.padStart(2,"0");
