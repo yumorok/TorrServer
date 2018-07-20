@@ -17,12 +17,12 @@ type TParser struct {
 }
 
 var jsNum = map[string]string{
-	"2": "1",
-	//"4":  "2",
+	//"2": "1",
+	"4": "2",
 	"6": "3",
 	//"8":  "4",
-	"9":  "5",
-	"10": "5",
+	"9": "5",
+	//"10": "5",
 }
 
 func NewTParser() *TParser {
@@ -49,7 +49,9 @@ func (p *TParser) findTorrents(urls []string) ([]*Torrent, error) {
 	list := make([]*Torrent, 0)
 	var err error
 	var mu sync.Mutex
-	for _, u := range urls {
+
+	utils.ParallelFor(0, len(urls), func(i int) {
+		u := urls[i]
 		body, _, er := readPage(u)
 		if er != nil {
 			err = er
@@ -64,7 +66,7 @@ func (p *TParser) findTorrents(urls []string) ([]*Torrent, error) {
 				mu.Unlock()
 			}
 		}
-	}
+	})
 
 	if len(list) == 0 && err != nil {
 		return nil, err
