@@ -18,6 +18,7 @@ type args struct {
 	Port string `arg:"-p" help:"web server port"`
 	Path string `arg:"-d" help:"database path"`
 	Add  string `arg:"-a" help:"add torrent link and exit"`
+	Kill bool   `arg:"-k" help:"dont kill program on signal"`
 }
 
 func (args) Version() string {
@@ -53,7 +54,7 @@ func main() {
 		add()
 	}
 
-	Preconfig()
+	Preconfig(params.Kill)
 
 	server.Start(params.Path, params.Port)
 	settings.SaveSettings()
@@ -70,12 +71,6 @@ func add() {
 
 	fmt.Println("Added ok")
 	os.Exit(0)
-}
-
-func addLocaly() error {
-	server.Start(params.Path, params.Port)
-	time.Sleep(time.Second * 5)
-	return addRemote()
 }
 
 func addRemote() error {
