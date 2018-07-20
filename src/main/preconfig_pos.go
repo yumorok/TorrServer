@@ -11,21 +11,23 @@ import (
 	"syscall"
 )
 
-func Preconfig() {
-	sigc := make(chan os.Signal, 1)
-	signal.Notify(sigc,
-		syscall.SIGHUP,
-		syscall.SIGINT,
-		syscall.SIGSTOP,
-		syscall.SIGPIPE,
-		syscall.SIGTERM,
-		syscall.SIGQUIT)
-	go func() {
-		for s := range sigc {
-			fmt.Println("Signal catched:", s)
-			fmt.Println("For stop server, close in web")
-		}
-	}()
+func Preconfig(kill bool) {
+	if kill {
+		sigc := make(chan os.Signal, 1)
+		signal.Notify(sigc,
+			syscall.SIGHUP,
+			syscall.SIGINT,
+			syscall.SIGSTOP,
+			syscall.SIGPIPE,
+			syscall.SIGTERM,
+			syscall.SIGQUIT)
+		go func() {
+			for s := range sigc {
+				fmt.Println("Signal catched:", s)
+				fmt.Println("For stop server, close in web")
+			}
+		}()
+	}
 
 	//dns resover
 	addrs, err := net.LookupHost("www.themoviedb.org")
