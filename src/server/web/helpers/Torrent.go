@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"fmt"
+	"sort"
 	"time"
 
 	"server/settings"
@@ -22,6 +23,9 @@ func Add(bts *torr.BTServer, magnet metainfo.Magnet, save bool) error {
 		torDb.Magnet = magnet.String()
 		torDb.Timestamp = time.Now().Unix()
 		files := torr.Files()
+		sort.Slice(files, func(i, j int) bool {
+			return files[i].Path() < files[j].Path()
+		})
 		for _, f := range files {
 			ff := settings.File{
 				f.Path(),
