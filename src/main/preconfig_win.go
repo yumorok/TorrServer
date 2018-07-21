@@ -2,6 +2,6 @@
 
 package main
 
-func Preconfig() {
+func Preconfig(kill bool) {
 
 }
