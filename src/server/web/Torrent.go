@@ -428,16 +428,16 @@ func torrentPlayList(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	torr, err := settings.LoadTorrentDB(hash)
+	tor, err := settings.LoadTorrentDB(hash)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
-	m3u := helpers.MakeM3UTorrent(torr, c.Scheme()+"://"+c.Request().Host)
+	m3u := helpers.MakeM3UTorrent(tor, c.Scheme()+"://"+c.Request().Host)
 
 	c.Response().Header().Set("Content-Type", "audio/x-mpegurl")
-	c.Response().Header().Set("Content-Disposition", `attachment; filename="`+utils.FileToLink(torr.Name)+".m3u"+`"`)
-	http.ServeContent(c.Response(), c.Request(), utils.FileToLink(torr.Name)+".m3u", time.Now(), bytes.NewReader([]byte(m3u)))
+	c.Response().Header().Set("Content-Disposition", `attachment; filename="`+utils.FileToLink(tor.Name)+".m3u"+`"`)
+	http.ServeContent(c.Response(), c.Request(), utils.FileToLink(tor.Name)+".m3u", time.Now(), bytes.NewReader([]byte(m3u)))
 	return c.NoContent(http.StatusOK)
 }
 
@@ -593,7 +593,11 @@ func toTorrentDB(t *torr.Torrent) *settings.Torrent {
 	mi := t.Torrent.Metainfo()
 	tor.Magnet = mi.Magnet(t.Name(), t.Torrent.InfoHash()).String()
 	tor.Size = t.Length()
-	for _, f := range t.Files() {
+	files := t.Files()
+	sort.Slice(files, func(i, j int) bool {
+		return files[i].Path() < files[j].Path()
+	})
+	for _, f := range files {
 		tf := settings.File{
 			Name:   f.Path(),
 			Size:   f.Length(),
