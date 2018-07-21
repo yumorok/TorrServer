@@ -290,6 +290,10 @@ func (t *Torrent) Preload(file *torrent.File, size int64) {
 		}()
 	}
 
+	if size > file.Length() {
+		size = file.Length()
+	}
+
 	t.PreloadSize = size
 	var lastSize int64 = 0
 	errCount := 0
