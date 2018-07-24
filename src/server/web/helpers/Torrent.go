@@ -50,7 +50,7 @@ func Add(bts *torr.BTServer, magnet metainfo.Magnet, save bool) error {
 
 func FindFileLink(fileLink string, torr *torrent.Torrent) *torrent.File {
 	for _, f := range torr.Files() {
-		if utils.FileToLink(f.Path()) == fileLink {
+		if utils.CleanFName(f.Path()) == fileLink {
 			return f
 		}
 	}
