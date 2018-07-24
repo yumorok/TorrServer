@@ -33,8 +33,6 @@ func initTorrent(e *echo.Echo) {
 
 	e.GET("/torrent/restart", torrentRestart)
 
-	e.GET("/torrent/playlist/:hash/*", torrentPlayList)
-	e.GET("/torrent/playlist/:hash", torrentPlayList)
 	e.GET("/torrent/playlist.m3u", torrentPlayListAll)
 
 	e.GET("/torrent/play", torrentPlay)
@@ -423,25 +421,6 @@ func torrentRestart(c echo.Context) error {
 	return c.String(http.StatusOK, "Ok")
 }
 
-func torrentPlayList(c echo.Context) error {
-	hash, err := url.PathUnescape(c.Param("hash"))
-	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
-	}
-
-	tor, err := settings.LoadTorrentDB(hash)
-	if err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
-	}
-
-	m3u := helpers.MakeM3UTorrent(tor, c.Scheme()+"://"+c.Request().Host)
-
-	c.Response().Header().Set("Content-Type", "audio/x-mpegurl")
-	c.Response().Header().Set("Content-Disposition", `attachment; filename="`+utils.FileToLink(tor.Name)+".m3u"+`"`)
-	http.ServeContent(c.Response(), c.Request(), utils.FileToLink(tor.Name)+".m3u", time.Now(), bytes.NewReader([]byte(m3u)))
-	return c.NoContent(http.StatusOK)
-}
-
 func torrentPlayListAll(c echo.Context) error {
 	list, err := settings.LoadTorrentsDB()
 	if err != nil {
@@ -616,7 +595,8 @@ func getTorrentJS(tor *settings.Torrent) (*TorrentJsonResponse, error) {
 	js.Hash = tor.Hash
 	js.AddTime = tor.Timestamp
 	js.Length = tor.Size
-	js.Playlist = "/torrent/playlist/" + tor.Hash + "/" + utils.FileToLink(tor.Name) + ".m3u"
+	//fname is fake param for file name
+	js.Playlist = "/torrent/play?link=" + url.QueryEscape(tor.Magnet) + "&m3u=true&fname=" + url.QueryEscape(tor.Name+".m3u")
 	var size int64 = 0
 	for _, f := range tor.Files {
 		size += f.Size
