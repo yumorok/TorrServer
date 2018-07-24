@@ -493,7 +493,7 @@ func torrentPlay(c echo.Context) error {
 		mt := tor.Torrent.Metainfo()
 		m3u := helpers.MakeM3UPlayList(tor.Stats(), mt.Magnet(tor.Name(), tor.Hash()).String(), c.Scheme()+"://"+c.Request().Host)
 		c.Response().Header().Set("Content-Type", "audio/x-mpegurl")
-		name := utils.FileToLink(tor.Name()) + ".m3u"
+		name := utils.CleanFName(tor.Name()) + ".m3u"
 		c.Response().Header().Set("Content-Disposition", `attachment; filename="`+name+`"`)
 		http.ServeContent(c.Response(), c.Request(), name, time.Now(), bytes.NewReader([]byte(m3u)))
 		return c.NoContent(http.StatusOK)
@@ -596,14 +596,14 @@ func getTorrentJS(tor *settings.Torrent) (*TorrentJsonResponse, error) {
 	js.AddTime = tor.Timestamp
 	js.Length = tor.Size
 	//fname is fake param for file name
-	js.Playlist = "/torrent/play?link=" + url.QueryEscape(tor.Magnet) + "&m3u=true&fname=" + url.QueryEscape(tor.Name+".m3u")
+	js.Playlist = "/torrent/play?link=" + url.QueryEscape(tor.Magnet) + "&m3u=true&fname=" + utils.CleanFName(tor.Name+".m3u")
 	var size int64 = 0
 	for _, f := range tor.Files {
 		size += f.Size
 		tf := TorFile{
 			Name:    f.Name,
-			Link:    "/torrent/view/" + js.Hash + "/" + utils.FileToLink(f.Name),
-			Preload: "/torrent/preload/" + js.Hash + "/" + utils.FileToLink(f.Name),
+			Link:    "/torrent/view/" + js.Hash + "/" + utils.CleanFName(f.Name),
+			Preload: "/torrent/preload/" + js.Hash + "/" + utils.CleanFName(f.Name),
 			Size:    f.Size,
 			Viewed:  f.Viewed,
 		}
