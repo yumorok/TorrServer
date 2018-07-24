@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"sort"
 	"strconv"
+	"strings"
 	"time"
 
 	"server/settings"
@@ -469,7 +470,7 @@ func torrentPlay(c echo.Context) error {
 	mm3u := c.QueryParam("m3u")
 
 	preload := int64(0)
-	stat := qstat == "true"
+	stat := strings.ToLower(qstat) == "true"
 
 	if qpreload != "" {
 		preload, _ = strconv.ParseInt(qpreload, 10, 64)
@@ -500,7 +501,7 @@ func torrentPlay(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, "torrent closed befor get info")
 	}
 
-	if qsave == "true" {
+	if strings.ToLower(qsave) == "true" {
 		if t, err := settings.LoadTorrentDB(magnet.InfoHash.HexString()); t == nil && err == nil {
 			torrDb := toTorrentDB(tor)
 			if torrDb != nil {
@@ -509,7 +510,7 @@ func torrentPlay(c echo.Context) error {
 		}
 	}
 
-	if mm3u == "true" {
+	if strings.ToLower(mm3u) == "true" {
 		mt := tor.Torrent.Metainfo()
 		m3u := helpers.MakeM3UPlayList(tor.Stats(), mt.Magnet(tor.Name(), tor.Hash()).String(), c.Scheme()+"://"+c.Request().Host)
 		c.Response().Header().Set("Content-Type", "audio/x-mpegurl")

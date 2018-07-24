@@ -35,10 +35,10 @@ func searchPage(c echo.Context) error {
 	}
 
 	var pinfo *PageInfo
-	if vt == "show" {
+	if strings.ToLower(vt) == "show" {
 		shows, all := getShows(c)
 		pinfo = tvToPageInfo(c, shows, all)
-	} else if vt == "torrent" {
+	} else if strings.ToLower(vt) == "torrent" {
 		pinfo = new(PageInfo)
 		pinfo.IsTorrent = true
 		torrs, err := getTorrent(c)
@@ -126,7 +126,7 @@ func getShow(c echo.Context) error {
 
 func searchConfig(c echo.Context) error {
 	_, typeReq, _, language, _ := getParams(c)
-	switch typeReq {
+	switch strings.ToLower(typeReq) {
 	case "genres":
 		mg := tmdb.GetMovieGenres(language)
 		sg := tmdb.GetTVGenres(language)
@@ -214,7 +214,7 @@ func getMovies(c echo.Context) (tmdb.Movies, int) {
 	params, typeReq, page, language, query := getParams(c)
 	var movies tmdb.Movies
 	var all int
-	switch typeReq {
+	switch strings.ToLower(typeReq) {
 	case "discover":
 		movies, all = tmdb.DiscoverMovies(params, page)
 	case "search":
@@ -227,7 +227,7 @@ func getShows(c echo.Context) (tmdb.Shows, int) {
 	params, typeReq, page, language, query := getParams(c)
 	var shows tmdb.Shows
 	var all int
-	switch typeReq {
+	switch strings.ToLower(typeReq) {
 	case "discover":
 		shows, all = tmdb.DiscoverShows(params, page)
 	case "search":
@@ -250,13 +250,13 @@ func getParams(c echo.Context) (map[string]string, string, int, string, string) 
 			language = strings.Join(v, ",")
 			params[k] = language
 		}
-		if k == "page" {
+		if strings.ToLower(k) == "page" {
 			page, _ = strconv.Atoi(v[0])
-		} else if k == "type" {
+		} else if strings.ToLower(k) == "type" {
 			typeReq = v[0]
-		} else if k == "query" {
+		} else if strings.ToLower(k) == "query" {
 			query = strings.Join(v, " ")
-		} else if k == "vt" {
+		} else if strings.ToLower(k) == "vt" {
 		} else {
 			params[k] = strings.Join(v, ",")
 		}
