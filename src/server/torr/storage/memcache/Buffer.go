@@ -25,22 +25,29 @@ func NewBufferPool(bufferLength int64, capacity int64) *BufferPool {
 	buffsSize := int(capacity/bufferLength) + 3
 	bp.frees = buffsSize
 	bp.size = bufferLength
-	bp.buffs = make(map[int]*buffer, buffsSize)
-	fmt.Println("Create", buffsSize, "buffers")
-	for i := 0; i < buffsSize; i++ {
-		b := buffer{
+	return bp
+}
+
+func (b *BufferPool) mkBuffs() {
+	if b.buffs != nil {
+		return
+	}
+	b.buffs = make(map[int]*buffer, b.frees)
+	fmt.Println("Create", b.frees, "buffers")
+	for i := 0; i < b.frees; i++ {
+		buf := buffer{
 			-1,
-			make([]byte, bufferLength),
+			make([]byte, b.size),
 			false,
 		}
-		bp.buffs[i] = &b
+		b.buffs[i] = &buf
 	}
-	return bp
 }
 
 func (b *BufferPool) GetBuffer(p *Piece) (buff []byte, index int) {
 	b.mu.Lock()
 	defer b.mu.Unlock()
+	b.mkBuffs()
 	for id, buf := range b.buffs {
 		if !buf.used {
 			buf.used = true
@@ -63,6 +70,7 @@ func (b *BufferPool) ReleaseBuffer(index int) {
 	}
 	b.mu.Lock()
 	defer b.mu.Unlock()
+	b.mkBuffs()
 	if buff, ok := b.buffs[index]; ok {
 		buff.used = false
 		buff.pieceId = -1
