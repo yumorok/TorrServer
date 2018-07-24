@@ -119,7 +119,7 @@ export CGO_ENABLED=1
 export GOOS=android 
 export LDFLAGS="-s -w"
 
-export NDK_TOOLCHAIN=/home/yourok/Space/Projects/Android/TorrServe/TorrServer/pkg/gomobile/ndk-toolchains/arm
+export NDK_TOOLCHAIN=/home/yourok/Space/Projects/GO/TorrServer/pkg/gomobile/ndk-toolchains/arm
 export CC=$NDK_TOOLCHAIN/bin/arm-linux-androideabi-clang
 export CXX=$NDK_TOOLCHAIN/bin/arm-linux-androideabi-clang++
 export GOARCH=arm 
@@ -128,7 +128,7 @@ BIN_FILENAME="dist/TorrServer-${GOOS}-${GOARCH}${GOARM}"
 echo "Android ${BIN_FILENAME}"
 go build -ldflags="${LDFLAGS}" -o ${BIN_FILENAME} main
 
-export NDK_TOOLCHAIN=/home/yourok/Space/Projects/Android/TorrServe/TorrServer/pkg/gomobile/ndk-toolchains/arm64
+export NDK_TOOLCHAIN=/home/yourok/Space/Projects/GO/TorrServer/pkg/gomobile/ndk-toolchains/arm64
 export CC=$NDK_TOOLCHAIN/bin/aarch64-linux-android-clang
 export CXX=$NDK_TOOLCHAIN/bin/aarch64-linux-android-clang++
 export GOARCH=arm64
@@ -137,7 +137,7 @@ BIN_FILENAME="dist/TorrServer-${GOOS}-${GOARCH}${GOARM}"
 echo "Android ${BIN_FILENAME}"
 go build -ldflags="${LDFLAGS}" -o ${BIN_FILENAME} main
 
-export NDK_TOOLCHAIN=/home/yourok/Space/Projects/Android/TorrServe/TorrServer/pkg/gomobile/ndk-toolchains/x86
+export NDK_TOOLCHAIN=/home/yourok/Space/Projects/GO/TorrServer/pkg/gomobile/ndk-toolchains/x86
 export CC=$NDK_TOOLCHAIN/bin/i686-linux-android-clang
 export CXX=$NDK_TOOLCHAIN/bin/i686-linux-android-clang++
 export GOARCH=386
@@ -146,7 +146,7 @@ BIN_FILENAME="dist/TorrServer-${GOOS}-${GOARCH}${GOARM}"
 echo "Android ${BIN_FILENAME}"
 go build -ldflags="${LDFLAGS}" -o ${BIN_FILENAME} main
 
-export NDK_TOOLCHAIN=/home/yourok/Space/Projects/Android/TorrServe/TorrServer/pkg/gomobile/ndk-toolchains/x86_64
+export NDK_TOOLCHAIN=/home/yourok/Space/Projects/GO/TorrServer/pkg/gomobile/ndk-toolchains/x86_64
 export CC=$NDK_TOOLCHAIN/bin/x86_64-linux-android-clang
 export CXX=$NDK_TOOLCHAIN/bin/x86_64-linux-android-clang++
 export GOARCH=amd64
