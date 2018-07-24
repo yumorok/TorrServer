@@ -6,11 +6,10 @@ import (
 	"runtime"
 	"runtime/debug"
 	"strconv"
-	"unicode"
 )
 
-func FileToLink(file string) string {
-	re := regexp.MustCompile(`[ !\*'\(\);:@&=\+\$,/\?#\[\]~",]`)
+func CleanFName(file string) string {
+	re := regexp.MustCompile(`[ !*'();:@&=+$,/?#\[\]~"]`)
 	return re.ReplaceAllString(file, `_`)
 }
 
@@ -65,11 +64,12 @@ func Format(b float64) string {
 	return fmt.Sprintf("%.2f%s", value, multiple)
 }
 
-func IsCyrillic(str string) bool {
-	for _, r := range str {
-		if unicode.Is(unicode.Cyrillic, r) {
-			return true
-		}
-	}
-	return false
-}
+//
+//func IsCyrillic(str string) bool {
+//	for _, r := range str {
+//		if unicode.Is(unicode.Cyrillic, r) {
+//			return true
+//		}
+//	}
+//	return false
+//}
