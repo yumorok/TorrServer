@@ -6,11 +6,14 @@ import (
 	"runtime"
 	"runtime/debug"
 	"strconv"
+	"strings"
 )
 
 func CleanFName(file string) string {
 	re := regexp.MustCompile(`[ !*'();:@&=+$,/?#\[\]~"]`)
-	return re.ReplaceAllString(file, `_`)
+	ret := re.ReplaceAllString(file, `_`)
+	ret = strings.Replace(ret, "__", "_", -1)
+	return ret
 }
 
 func FreeOSMem() {
