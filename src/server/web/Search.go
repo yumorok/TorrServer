@@ -86,7 +86,7 @@ func getMovie(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	ln := c.QueryParam("lanuage")
+	ln := c.QueryParam("language")
 	if ln == "" {
 		ln = "ru"
 	}
@@ -109,7 +109,7 @@ func getShow(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	ln := c.QueryParam("lanuage")
+	ln := c.QueryParam("language")
 	if ln == "" {
 		ln = "ru"
 	}
