@@ -433,8 +433,12 @@ var searchPage = `
 					}
   				});
 			
-				if (year)
-					qparam.push('primary_release_year='+year);
+				if (year){
+					if (vt=="show")
+						qparam.push('first_air_date.lte='+year);
+					else
+						qparam.push('primary_release_year='+year);
+				}
 				if (sort)
 					qparam.push('sort_by='+sort);
 				if (genres.length>0)
