@@ -110,7 +110,7 @@ func shutdownPage(c echo.Context) error {
 		Stop()
 		settings.CloseDB()
 		time.Sleep(time.Second * 2)
-		os.Exit(0)
+		os.Exit(5)
 	}()
 	return c.NoContent(http.StatusOK)
 }
