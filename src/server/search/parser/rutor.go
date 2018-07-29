@@ -18,6 +18,15 @@ var rtmirrors = []string{
 	"http://free-rutor.org",
 	"http://fast-bit.org",
 
+	"http://ru-free-tor.org",
+	"http://film-tor.org",
+	"http://open-tor.org",
+	"http://hot-tor.org",
+	"http://x-bit.net",
+	"http://rutor.is",
+	"http://rutor.info",
+	"http://rutor.lib",
+
 	//Не официальные зеркала
 	//"http://srutor.org",
 	//"http://nerutor.org",
