@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/alexflint/go-arg"
 	"server"
@@ -57,8 +58,9 @@ func main() {
 
 	server.Start(params.Path, params.Port)
 	settings.SaveSettings()
-
 	fmt.Println(server.WaitServer())
+	time.Sleep(time.Second * 3)
+	os.Exit(0)
 }
 
 func add() {
