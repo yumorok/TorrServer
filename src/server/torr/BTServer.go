@@ -104,6 +104,8 @@ func (bt *BTServer) configure() {
 		bt.config.UploadRateLimiter = rate.NewLimiter(rate.Limit(settings.Get().UploadRateLimit*1024), 1024)
 	}
 
+	//bt.config.Debug = true
+
 	fmt.Println("Configure client:", settings.Get())
 }
 
@@ -157,17 +159,17 @@ func (bt *BTServer) BTState() *BTState {
 	bt.mu.Lock()
 	defer bt.mu.Unlock()
 
-	state := new(BTState)
-	state.LocalPort = bt.client.LocalPort()
-	state.PeerID = fmt.Sprintf("%x", bt.client.PeerID())
-	state.BannedIPs = len(bt.client.BadPeerIPs())
+	btState := new(BTState)
+	btState.LocalPort = bt.client.LocalPort()
+	btState.PeerID = fmt.Sprintf("%x", bt.client.PeerID())
+	btState.BannedIPs = len(bt.client.BadPeerIPs())
 	for _, dht := range bt.client.DhtServers() {
-		state.DHTs = append(state.DHTs, dht)
+		btState.DHTs = append(btState.DHTs, dht)
 	}
 	for _, t := range bt.torrents {
-		state.Torrents = append(state.Torrents, t)
+		btState.Torrents = append(btState.Torrents, t)
 	}
-	return state
+	return btState
 }
 
 func (bt *BTServer) CacheState(hash metainfo.Hash) *state.CacheState {
@@ -176,8 +178,8 @@ func (bt *BTServer) CacheState(hash metainfo.Hash) *state.CacheState {
 		return nil
 	}
 
-	state := bt.storage.GetStats(hash)
-	return state
+	cacheState := bt.storage.GetStats(hash)
+	return cacheState
 }
 
 func (bt *BTServer) WriteState(w io.Writer) {
