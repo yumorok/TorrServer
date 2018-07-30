@@ -15,7 +15,6 @@ import (
 	"github.com/anacrolix/torrent"
 	"github.com/anacrolix/torrent/iplist"
 	"github.com/anacrolix/torrent/metainfo"
-	"golang.org/x/time/rate"
 )
 
 type BTServer struct {
@@ -83,25 +82,21 @@ func (bt *BTServer) configure() {
 		DisableEncryption: settings.Get().Encryption == 1,
 		ForceEncryption:   settings.Get().Encryption == 2,
 	}
-	//bt.config.DownloadRateLimiter = rate.NewLimiter(rate.Inf, 2<<16)
-	//bt.config.UploadRateLimiter = rate.NewLimiter(rate.Inf, 2<<16)
 	bt.config.IPBlocklist = blocklist
 	bt.config.DefaultStorage = bt.storage
 	bt.config.Bep20 = peerID
 	bt.config.PeerID = utils.PeerIDRandom(peerID)
 	bt.config.HTTPUserAgent = userAgent
 	bt.config.EstablishedConnsPerTorrent = settings.Get().ConnectionsLimit
-	//bt.config.HalfOpenConnsPerTorrent = int(float64(settings.Get().ConnectionsLimit) * 0.65)
-	//bt.config.HandshakesTimeout = time.Second * 60
 
 	bt.config.TorrentPeersHighWater = 3000
 	bt.config.HalfOpenConnsPerTorrent = 50
 
 	if settings.Get().DownloadRateLimit > 0 {
-		bt.config.DownloadRateLimiter = rate.NewLimiter(rate.Limit(settings.Get().DownloadRateLimit*1024), 1024)
+		bt.config.DownloadRateLimiter = utils.Limit(settings.Get().DownloadRateLimit * 1024)
 	}
 	if settings.Get().UploadRateLimit > 0 {
-		bt.config.UploadRateLimiter = rate.NewLimiter(rate.Limit(settings.Get().UploadRateLimit*1024), 1024)
+		bt.config.UploadRateLimiter = utils.Limit(settings.Get().UploadRateLimit * 1024)
 	}
 
 	//bt.config.Debug = true
