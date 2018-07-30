@@ -45,6 +45,7 @@ func initTorrent(e *echo.Echo) {
 type TorrentJsonRequest struct {
 	Link     string `json:",omitempty"`
 	Hash     string `json:",omitempty"`
+	Info     string `json:",omitempty"`
 	DontSave bool   `json:",omitempty"`
 }
 
@@ -56,6 +57,7 @@ type TorrentJsonResponse struct {
 	Length   int64
 	Status   torr.TorrentStatus
 	Playlist string
+	Info     string
 	Files    []TorFile `json:",omitempty"`
 }
 
@@ -87,6 +89,31 @@ func torrentAdd(c echo.Context) error {
 	if err != nil {
 		fmt.Println("Error add torrent:", jreq.Hash, err)
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	if jreq.Info != "" {
+		go func() {
+			//info := settings.GetInfo(magnet.InfoHash.String())
+			//if info != "{}" {
+			//	jsset := map[string]*json.RawMessage{}
+			//	if err := json.Unmarshal([]byte(jreq.Info), jsset); err == nil {
+			//		jsdb := map[string]*json.RawMessage{}
+			//		if json.Unmarshal([]byte(info), jsdb) == nil {
+			//			for k, v := range jsset {
+			//				jsdb[k] = v
+			//			}
+			//			jsstr, err := json.Marshal(jsdb)
+			//			if err == nil {
+			//				settings.AddInfo(magnet.InfoHash.String(), string(jsstr))
+			//				return
+			//			}
+			//		}
+			//	} else {
+			//		fmt.Println(err)
+			//	}
+			//}
+			settings.AddInfo(magnet.InfoHash.String(), jreq.Info)
+		}()
 	}
 
 	return c.String(http.StatusOK, magnet.InfoHash.HexString())
@@ -612,6 +639,9 @@ func getTorrentJS(tor *settings.Torrent) (*TorrentJsonResponse, error) {
 	if tor.Size == 0 {
 		js.Length = size
 	}
+
+	js.Info = settings.GetInfo(tor.Hash)
+
 	return js, nil
 }
 
