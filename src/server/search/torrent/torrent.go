@@ -16,6 +16,7 @@ func Search(query string, filterStrings []string) []*parser.Torrent {
 
 	wa.Add(3)
 	go func() {
+		defer wa.Done()
 		lst, err := parser.NewRutor().Search(query)
 		fmt.Println("End rutor")
 		if err != nil {
@@ -25,10 +26,10 @@ func Search(query string, filterStrings []string) []*parser.Torrent {
 		mu.Lock()
 		list = append(list, lst...)
 		mu.Unlock()
-		wa.Done()
 	}()
 
 	go func() {
+		defer wa.Done()
 		lst, err := parser.NewYHH().Search(query)
 		fmt.Println("End YHH")
 		if err != nil {
@@ -38,10 +39,10 @@ func Search(query string, filterStrings []string) []*parser.Torrent {
 		mu.Lock()
 		list = append(list, lst...)
 		mu.Unlock()
-		wa.Done()
 	}()
 
 	go func() {
+		defer wa.Done()
 		lst, err := parser.NewTParser().Search(query)
 		fmt.Println("End TParser")
 		if err != nil {
@@ -51,7 +52,6 @@ func Search(query string, filterStrings []string) []*parser.Torrent {
 		mu.Lock()
 		list = append(list, lst...)
 		mu.Unlock()
-		wa.Done()
 	}()
 	wa.Wait()
 	filterStrings = append(filterStrings, query)
