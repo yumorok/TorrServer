@@ -269,7 +269,7 @@ var searchPage = `
 				<div class="thumbnail shadow">
 					<h3>
 						{{.Name}} ({{.Year}})<br>
-						<small>{{range $index, $gen := .Genres}}{{if $index}},{{end}} {{$gen.Name}}{{end}}</small>
+						<small>[{{printf "%.1f" .VoteAverage}}], {{range $index, $gen := .Genres}}{{if $index}},{{end}} {{$gen.Name}}{{end}}</small>
 					</h3>
 					<img class="img-responsive" src="{{.Poster}}">
 				</div>
