@@ -534,7 +534,7 @@ var searchPage = `
 					}
 					html += '<div class="btn-group d-flex" role="group">'
 					html += '<a type="button" class="btn btn-secondary wrap w-100" href="/torrent/play?link='+encodeURIComponent(torr.Magnet)+'&m3u=true">' + torr.Name + " | " + torr.Size + dl +'</a>';
-					html += '<a type="button" class="btn btn-secondary" onclick="doTorrent(\'' + torr.Magnet + '\', this)"><i class="fas fa-plus"></i></a>';
+					html += '<button type="button" class="btn btn-secondary" onclick="doTorrent(\'' + torr.Magnet + '\', this)"><i class="fas fa-plus"></i></button>';
 					html += '</div>';
 				}
 				$('#loader').fadeOut(700);
