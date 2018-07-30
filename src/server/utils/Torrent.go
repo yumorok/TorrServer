@@ -9,6 +9,7 @@ import (
 	"server/settings"
 
 	"github.com/anacrolix/torrent"
+	"golang.org/x/time/rate"
 )
 
 var trackers = []string{
@@ -58,4 +59,16 @@ func GetReadahead() int64 {
 		}
 	}
 	return readahead
+}
+
+func Limit(i int) *rate.Limiter {
+	l := rate.NewLimiter(rate.Inf, 0)
+	if i > 0 {
+		b := i
+		if b < 16*1024 {
+			b = 16 * 1024
+		}
+		l = rate.NewLimiter(rate.Limit(i), b)
+	}
+	return l
 }
