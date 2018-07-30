@@ -349,6 +349,8 @@ var searchPage = `
 			
 			if (params.get('primary_release_year'))
 				$('#fYear').val(params.get('primary_release_year'));
+			if (params.get('first_air_date.lte'))
+				$('#fYear').val(params.get('first_air_date.lte'));
 			
 			if (params.get('with_genres')){
 				var genres = params.get('with_genres').split(',');
@@ -531,8 +533,8 @@ var searchPage = `
 						dl += '| ▼ ' + torr.PeersDl;
 					}
 					html += '<div class="btn-group d-flex" role="group">'
-					html += '<button type="button" class="btn btn-secondary wrap w-100" onclick="doTorrent(\'' + torr.Magnet + '\', this)"><i class="fas fa-plus"></i> ' + torr.Name + " | " + torr.Size + dl +'</button>';
-					html += '<a type="button" class="btn btn-secondary" href="/torrent/play?link='+encodeURIComponent(torr.Magnet)+'&m3u=true">...</a>'
+					html += '<a type="button" class="btn btn-secondary wrap w-100" href="/torrent/play?link='+encodeURIComponent(torr.Magnet)+'&m3u=true">' + torr.Name + " | " + torr.Size + dl +'</a>';
+					html += '<a type="button" class="btn btn-secondary" onclick="doTorrent(\'' + torr.Magnet + '\', this)"><i class="fas fa-plus"></i></a>';
 					html += '</div>';
 				}
 				$('#loader').fadeOut(700);
