@@ -41,10 +41,7 @@ func searchPage(c echo.Context) error {
 	} else if strings.ToLower(vt) == "torrent" {
 		pinfo = new(PageInfo)
 		pinfo.IsTorrent = true
-		torrs, err := getTorrent(c)
-		if err != nil {
-			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
-		}
+		torrs := getTorrent(c)
 		for _, t := range torrs {
 			ii := new(ItemInfo)
 			ii.Name = t.Name
@@ -144,19 +141,16 @@ func searchConfig(c echo.Context) error {
 }
 
 func searchTorrent(c echo.Context) error {
-	torrs, err := getTorrent(c)
-	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
-	}
+	torrs := getTorrent(c)
 	return c.JSON(http.StatusOK, torrs)
 }
 
-func getTorrent(c echo.Context) ([]*parser.Torrent, error) {
+func getTorrent(c echo.Context) []*parser.Torrent {
 	filter, _ := c.QueryParams()["ft"]
 	query := c.QueryParam("query")
 
 	if query == "" {
-		return nil, nil
+		return nil
 	}
 	torrs := torrent.Search(query, filter)
 	sort.Slice(torrs, func(i, j int) bool {
@@ -172,7 +166,7 @@ func getTorrent(c echo.Context) ([]*parser.Torrent, error) {
 
 		return torrs[i].PeersUl > torrs[j].PeersUl
 	})
-	return torrs, nil
+	return torrs
 }
 
 //gr 0 - 50 or more
