@@ -17,7 +17,7 @@ type TParser struct {
 }
 
 var jsNum = map[string]string{
-	//"2": "1",
+	"2": "1",
 	"4": "2",
 	"6": "3",
 	//"8":  "4",
