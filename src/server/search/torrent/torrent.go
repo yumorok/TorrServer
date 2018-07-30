@@ -7,6 +7,8 @@ import (
 	"time"
 
 	"server/search/parser"
+
+	"github.com/anacrolix/torrent/metainfo"
 )
 
 func Search(query string, filterStrings []string) []*parser.Torrent {
@@ -100,18 +102,61 @@ func filter(list []*parser.Torrent, filterStrings []string) []*parser.Torrent {
 }
 
 func removeDublicate(list []*parser.Torrent) []*parser.Torrent {
-	encountered := map[string]struct{}{}
-	result := []*parser.Torrent{}
-
+	magnets := map[string]*parser.Torrent{}
 	for _, t := range list {
-		if _, ok := encountered[getHash(t)]; !ok {
-			encountered[getHash(t)] = struct{}{}
-			result = append(result, t)
+		mag := getMagnet(t.Magnet)
+		if torr, ok := magnets[mag.InfoHash.HexString()]; !ok {
+			magnets[mag.InfoHash.HexString()] = t
+		} else {
+			smag := getMagnet(torr.Magnet)
+			mag = concatMagnet(mag, smag)
+			if mag.DisplayName != torr.Name {
+				mag.DisplayName = torr.Name
+			}
+			torr.Magnet = mag.String()
+			if torr.PeersDl < t.PeersDl {
+				torr.PeersDl = t.PeersDl
+			}
+			if torr.PeersUl < t.PeersUl {
+				torr.PeersUl = t.PeersUl
+			}
+			magnets[mag.InfoHash.HexString()] = torr
 		}
 	}
-	return result
+
+	torrents := []*parser.Torrent{}
+	for _, t := range magnets {
+		torrents = append(torrents, t)
+	}
+	return torrents
 }
 
-func getHash(t *parser.Torrent) string {
-	return strings.ToLower(t.Magnet)
+func getMagnet(magStr string) *metainfo.Magnet {
+	m, err := metainfo.ParseMagnetURI(magStr)
+	if err != nil {
+		return nil
+	}
+	return &m
+}
+
+func concatMagnet(m1, m2 *metainfo.Magnet) *metainfo.Magnet {
+	n1 := m1.DisplayName
+	n2 := m2.DisplayName
+	if len(n1) < len(n2) {
+		n1 = n2
+	}
+	trackers := map[string]struct{}{}
+	for _, tr := range m1.Trackers {
+		trackers[tr] = struct{}{}
+	}
+	for _, tr := range m2.Trackers {
+		trackers[tr] = struct{}{}
+	}
+
+	m1.Trackers = []string{}
+	for tr := range trackers {
+		m1.Trackers = append(m1.Trackers, tr)
+	}
+	m1.DisplayName = n1
+	return m1
 }
