@@ -617,7 +617,11 @@ func toTorrentDB(t *torr.Torrent) *settings.Torrent {
 
 func getTorrentJS(tor *settings.Torrent) (*TorrentJsonResponse, error) {
 	js := new(TorrentJsonResponse)
+	mag, err := metainfo.ParseMagnetURI(tor.Magnet)
 	js.Name = tor.Name
+	if err == nil && len(tor.Name) < len(mag.DisplayName) {
+		js.Name = mag.DisplayName
+	}
 	js.Magnet = tor.Magnet
 	js.Hash = tor.Hash
 	js.AddTime = tor.Timestamp
