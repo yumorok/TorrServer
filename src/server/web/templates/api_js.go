@@ -14,10 +14,12 @@ function addTorrent(link, save, done, fail){
 	var reqJson = JSON.stringify({ Link: link, DontSave: !save});
 	$.post('/torrent/add',reqJson)
 	.done(function( data ) {
-		done(data);
+		if (done)
+			done(data);
 	})
 	.fail(function( data ) {
-		fail(data);
+		if (fail)
+			fail(data);
 	});
 }
 
@@ -25,7 +27,8 @@ function getTorrent(hash, done, fail){
 	var reqJson = JSON.stringify({ Hash: hash});
 	$.post('/torrent/get',reqJson)
 	.done(function( data ) {
-		done(data);
+		if (done)
+			done(data);
 	})
 	.fail(function( data ) {
 		if (fail)
@@ -37,10 +40,12 @@ function removeTorrent(hash, done, fail){
 	var reqJson = JSON.stringify({ Hash: hash});
 	$.post('/torrent/rem',reqJson)
 	.done(function( data ) {
-		done(data);
+		if (done)
+			done(data);
 	})
 	.fail(function( data ) {
-		fail(data);
+		if (fail)
+			fail(data);
 	});
 }
 
@@ -48,10 +53,12 @@ function statTorrent(hash, done, fail){
 	var reqJson = JSON.stringify({ Hash: hash});
 	$.post('/torrent/stat',reqJson)
 	.done(function( data ) {
-		done(data);
+		if (done)
+			done(data);
 	})
 	.fail(function( data ) {
-		fail(data);
+		if (fail)
+			fail(data);
 	});
 }
 
@@ -59,7 +66,8 @@ function cacheTorrent(hash, done, fail){
 	var reqJson = JSON.stringify({ Hash: hash});
 	$.post('/torrent/cache',reqJson)
 	.done(function( data ) {
-		done(data);
+		if (done)
+			done(data);
 	})
 	.fail(function( data ) {
 		if (fail)
@@ -70,7 +78,8 @@ function cacheTorrent(hash, done, fail){
 function listTorrent(done, fail){
 	$.post('/torrent/list')
 	.done(function( data ) {
-		done(data);
+		if (done)
+			done(data);
 	})
 	.fail(function( data ) {
 		if (fail)
@@ -105,7 +114,8 @@ function preloadTorrent(preloadLink, done, fail){
 function shutdownServer(fail){
 	$.post('/shutdown')
 	.fail(function( data ) {
-		fail(data);
+		if (fail)
+			fail(data);
 	});
 }
 
@@ -113,7 +123,8 @@ function searchTorrent(query, filter, done, fail){
 	var ftstr = 'ft='+filter.join("&ft=");
 	$.get('/search/torrent?query='+query+'&'+ftstr)
 	.done(function(torrList){
-		done(torrList);
+		if (done)
+			done(torrList);
 	})
 	.fail(function(data){
 		if (fail)
