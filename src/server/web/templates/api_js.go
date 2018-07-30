@@ -109,6 +109,18 @@ function shutdownServer(fail){
 	});
 }
 
+function searchTorrent(query, filter, done, fail){
+	var ftstr = 'ft='+filter.join("&ft=");
+	$.get('/search/torrent?query='+query+'&'+ftstr)
+	.done(function(torrList){
+		done(torrList);
+	})
+	.fail(function(data){
+		if (fail)
+			fail();
+	})
+}
+
 function humanizeSize(size) {
 	if (typeof size == 'undefined' || size == 0)
 		return "";
