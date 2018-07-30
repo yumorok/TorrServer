@@ -333,13 +333,13 @@ func PopularMovies(params DiscoverFilters, language string, page int) (Movies, i
 }
 
 func DiscoverMovies(params map[string]string, page int) (Movies, int) {
-	//if _, ok := params["vote_count.gte"]; !ok {
-	//	params["vote_count.gte"] = "10"
-	//}
+	if _, ok := params["vote_count.gte"]; !ok {
+		params["vote_count.gte"] = "10"
+	}
 
-	//if _, ok := params["primary_release_date.lte"]; !ok {
-	//	params["primary_release_date.lte"] = time.Now().UTC().Format("2006-01-02")
-	//}
+	if _, ok := params["primary_release_date.lte"]; !ok {
+		params["primary_release_date.lte"] = time.Now().UTC().Format("2006-01-02")
+	}
 
 	if _, ok := params["language"]; !ok {
 		params["language"] = "ru"

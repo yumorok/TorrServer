@@ -256,12 +256,21 @@ func PopularShows(params DiscoverFilters, language string, page int) (Shows, int
 }
 
 func DiscoverShows(params map[string]string, page int) (Shows, int) {
-	if _, ok := params["first_air_date.lte"]; !ok {
-		params["first_air_date.lte"] = time.Now().UTC().Format("2006-01-02")
+	//if _, ok := params["first_air_date.lte"]; !ok {
+	//	params["first_air_date.lte"] = time.Now().UTC().Format("2006-01-02")
+	//}
+
+	if len(params) == 0 {
+		params["air_date.gte"] = time.Now().UTC().AddDate(0, 0, -14).Format("2006-01-02")
+		params["vote_average.gte"] = "6.0"
 	}
 
 	if _, ok := params["language"]; !ok {
 		params["language"] = "ru"
+	}
+
+	if _, ok := params["vote_count.gte"]; !ok {
+		params["vote_count.gte"] = "10"
 	}
 
 	return listShows("discover/tv", params, page)
