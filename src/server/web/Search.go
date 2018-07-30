@@ -30,9 +30,9 @@ func initSearch(e *echo.Echo) {
 func searchPage(c echo.Context) error {
 	vt := c.QueryParam("vt")
 
-	if c.QueryParam("language") == "" {
-		c.QueryParams().Set("language", "ru")
-	}
+	//if c.QueryParam("language") == "" {
+	//	c.QueryParams().Set("language", "ru")
+	//}
 
 	var pinfo *PageInfo
 	if strings.ToLower(vt) == "show" {
@@ -345,6 +345,8 @@ type ItemInfo struct {
 	Backdrop string
 	AllArts  []string
 
+	VoteAverage float32
+
 	Seasons  int
 	Episodes int
 }
@@ -376,6 +378,7 @@ func movToPageInfo(c echo.Context, movies tmdb.Movies, all int) *PageInfo {
 		ii.Tagline = m.TagLine
 		ii.Poster = m.PosterPath
 		ii.Backdrop = m.BackdropPath
+		ii.VoteAverage = m.VoteAverage
 		for _, i := range m.Images.Posters {
 			ii.AllArts = append(ii.AllArts, i.FilePath)
 		}
@@ -416,6 +419,7 @@ func tvToPageInfo(c echo.Context, shows tmdb.Shows, all int) *PageInfo {
 		}
 		ii.Poster = s.PosterPath
 		ii.Backdrop = s.BackdropPath
+		ii.VoteAverage = s.VoteAverage
 		for _, i := range s.Images.Posters {
 			ii.AllArts = append(ii.AllArts, i.FilePath)
 		}
