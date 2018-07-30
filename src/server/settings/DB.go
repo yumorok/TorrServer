@@ -9,6 +9,7 @@ import (
 
 var (
 	db             *bolt.DB
+	dbInfosName    = []byte("Infos")
 	dbTorrentsName = []byte("Torrents")
 	dbSettingsName = []byte("Settings")
 	Path           string
