@@ -17,6 +17,7 @@ import (
 	"server/utils"
 	"server/web/helpers"
 
+	"github.com/anacrolix/missinggo/httptoo"
 	"github.com/anacrolix/torrent/metainfo"
 	"github.com/labstack/echo"
 )
@@ -36,6 +37,8 @@ func initTorrent(e *echo.Echo) {
 	e.GET("/torrent/playlist.m3u", torrentPlayListAll)
 
 	e.GET("/torrent/play", torrentPlay)
+	e.HEAD("/torrent/play", torrentPlay)
+
 	e.GET("/torrent/view/:hash/:file", torrentView)
 	e.HEAD("/torrent/view/:hash/:file", torrentView)
 	e.GET("/torrent/preload/:hash/:file", torrentPreload)
@@ -520,9 +523,11 @@ func torrentPlay(c echo.Context) error {
 		mt := tor.Torrent.Metainfo()
 		m3u := helpers.MakeM3UPlayList(tor.Stats(), mt.Magnet(tor.Name(), tor.Hash()).String(), c.Scheme()+"://"+c.Request().Host)
 		c.Response().Header().Set("Content-Type", "audio/x-mpegurl")
+		c.Response().Header().Set("Connection", "close")
 		name := utils.CleanFName(tor.Name()) + ".m3u"
+		c.Response().Header().Set("ETag", httptoo.EncodeQuotedString(fmt.Sprintf("%s/%s", tor.Hash().HexString(), name)))
 		c.Response().Header().Set("Content-Disposition", `attachment; filename="`+name+`"`)
-		http.ServeContent(c.Response(), c.Request(), name, time.Now(), bytes.NewReader([]byte(m3u)))
+		http.ServeContent(c.Response(), c.Request(), name, time.Time{}, bytes.NewReader([]byte(m3u)))
 		return c.NoContent(http.StatusOK)
 	}
 
