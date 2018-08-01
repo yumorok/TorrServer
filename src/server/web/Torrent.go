@@ -96,26 +96,7 @@ func torrentAdd(c echo.Context) error {
 
 	if jreq.Info != "" {
 		go func() {
-			//info := settings.GetInfo(magnet.InfoHash.String())
-			//if info != "{}" {
-			//	jsset := map[string]*json.RawMessage{}
-			//	if err := json.Unmarshal([]byte(jreq.Info), jsset); err == nil {
-			//		jsdb := map[string]*json.RawMessage{}
-			//		if json.Unmarshal([]byte(info), jsdb) == nil {
-			//			for k, v := range jsset {
-			//				jsdb[k] = v
-			//			}
-			//			jsstr, err := json.Marshal(jsdb)
-			//			if err == nil {
-			//				settings.AddInfo(magnet.InfoHash.String(), string(jsstr))
-			//				return
-			//			}
-			//		}
-			//	} else {
-			//		fmt.Println(err)
-			//	}
-			//}
-			settings.AddInfo(magnet.InfoHash.String(), jreq.Info)
+			utils.AddInfo(jreq.Hash, jreq.Info)
 		}()
 	}
 
