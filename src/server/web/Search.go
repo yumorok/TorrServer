@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"net/http"
 	"sort"
 	"strconv"
@@ -11,9 +10,7 @@ import (
 	"server/search/parser"
 	"server/search/tmdb"
 	"server/search/torrent"
-	"server/utils"
 
-	"github.com/anacrolix/torrent/metainfo"
 	"github.com/labstack/echo"
 )
 
@@ -152,9 +149,6 @@ func getTorrent(c echo.Context) []*parser.Torrent {
 	filter, _ := c.QueryParams()["ft"]
 	query := c.QueryParam("query")
 
-	vt := c.QueryParam("vt")
-	id := c.QueryParam("id")
-
 	if query == "" {
 		return nil
 	}
@@ -172,17 +166,6 @@ func getTorrent(c echo.Context) []*parser.Torrent {
 
 		return torrs[i].PeersUl > torrs[j].PeersUl
 	})
-	if id != "" && vt != "" {
-		go func() {
-			for _, t := range torrs {
-				mag, err := metainfo.ParseMagnetURI(t.Magnet)
-				if err == nil {
-					info := fmt.Sprintf("{\"TmdbID\":\"%v\", \"VideoType\":\"%v\"}", id, vt)
-					utils.AddInfo(mag.InfoHash.HexString(), info)
-				}
-			}
-		}()
-	}
 	return torrs
 }
 
