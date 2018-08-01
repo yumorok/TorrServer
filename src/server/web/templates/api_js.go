@@ -10,8 +10,8 @@ import (
 )
 
 var apijs = `
-function addTorrent(link, save, done, fail){
-	var reqJson = JSON.stringify({ Link: link, DontSave: !save});
+function addTorrent(link, save, info, done, fail){
+	var reqJson = JSON.stringify({ Link: link, Info: info, DontSave: !save});
 	$.post('/torrent/add',reqJson)
 	.done(function( data ) {
 		if (done)
@@ -119,10 +119,8 @@ function shutdownServer(fail){
 	});
 }
 
-function searchTorrent(query, filter, id, vt, done, fail){
+function searchTorrent(query, filter, done, fail){
 	var ftstr = 'ft='+filter.join("&ft=");
-	if (id && vt)
-	ftstr += '&id='+id+'&vt='+vt;
 	$.get('/search/torrent?query='+query+'&'+ftstr)
 	.done(function(torrList){
 		if (done)
