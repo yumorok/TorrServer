@@ -535,28 +535,26 @@ var searchPage = `
 					}
 					html += '<div class="btn-group d-flex" role="group">'
 					html += '<a type="button" class="btn btn-secondary wrap w-100" href="/torrent/play?link='+encodeURIComponent(torr.Magnet)+'&m3u=true">' + torr.Name + " | " + torr.Size + dl +'</a>';
-					html += '<button type="button" class="btn btn-secondary" onclick="doTorrent(\'' + torr.Magnet + '\', this)"><i class="fas fa-plus"></i></button>';
+					html += '<button type="button" class="btn btn-secondary" onclick="doTorrent(\'' + torr.Magnet + '\',\''+ID+'\', \''+vt+'\', this)"><i class="fas fa-plus"></i></button>';
 					html += '</div>';
 				}
 				$('#loader').fadeOut(700);
 				$('#infoTorrents').html(html);
 			};
 			
-			searchTorrent(OrigName,filter,ID,vt,function(torrList){
+			searchTorrent(OrigName,filter,function(torrList){
 				if (!torrList)
-					searchTorrent(Name,filter,ID,vt,fn);
+					searchTorrent(Name,filter,fn);
 				else
 					fn(torrList);
 			});
 		}
 			
-        function doTorrent(magnet, elem) {
+        function doTorrent(magnet, id, vt, elem) {
             $(elem).prop("disabled", true);
-            var magJS = JSON.stringify({
-                Link: magnet
-            });
-            $.post('/torrent/add', magJS)
-                .fail(function(data) {
+			var info = JSON.stringify({ TmdbID: id, VideoType: vt});
+			addTorrent(magnet,true,info,null,
+                function(data) {
                     $(elem).prop("disabled", false);
                     alert(data.responseJSON.message);
                 });
