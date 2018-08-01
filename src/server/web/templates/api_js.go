@@ -119,8 +119,10 @@ function shutdownServer(fail){
 	});
 }
 
-function searchTorrent(query, filter, done, fail){
+function searchTorrent(query, filter, id, vt, done, fail){
 	var ftstr = 'ft='+filter.join("&ft=");
+	if (id && vt)
+	ftstr += '&id='+id+'&vt='+vt;
 	$.get('/search/torrent?query='+query+'&'+ftstr)
 	.done(function(torrList){
 		if (done)

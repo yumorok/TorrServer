@@ -265,7 +265,7 @@ var searchPage = `
 		{{if not .IsTorrent}}
         <div id="movies" class="thumbnail-mousey">
 		{{range .Items}}
-			<div id="m{{.ID}}" onclick="showModal('{{.OriginalName}}','{{.Name}}','{{.Overview}}','{{.Year}}','{{.Seasons}}','', '{{.Backdrop}}')">
+			<div id="m{{.ID}}" onclick="showModal('{{.OriginalName}}','{{.Name}}','{{.Overview}}','{{.Year}}','{{.Seasons}}','', '{{.Backdrop}}', '{{.ID}}')">
 				<div class="thumbnail shadow">
 					<h3>
 						{{.Name}} ({{.Year}})<br>
@@ -497,14 +497,14 @@ var searchPage = `
         }
 		{{end}}
 			
-		function showModal(OrigName, Name, Overview, Year, SeasonsCount, Season, Backdrop){
+		function showModal(OrigName, Name, Overview, Year, SeasonsCount, Season, Backdrop, ID){
 			$('#infoTorrents').empty();
 			$('#infoName').text(Name+ ' ' +Year);
 			var img = '<img src="'+Backdrop+'" class="rounded leftimg">';
 			$('#infoOverview').html(img + Overview);
 			$('#infoModal').modal('show');
 			$('#loader').fadeIn(700);
-			
+			var vt = "movie";
 			var filter = [];
 			if (Year && !Season && !(+SeasonsCount))
 				filter.push(Year);
@@ -513,6 +513,7 @@ var searchPage = `
 				filter.push('S'+ses+'|'+ses+'x');
 			}
 			if (SeasonsCount>0){
+				vt = "show";
 				var html = '<button type="button" class="btn btn-primary" onclick="showModal(\''+OrigName+'\',\''+Name+'\',\''+Overview+'\',\''+Year+'\','+SeasonsCount+',\'\', \''+Backdrop+'\')">All</button>';
 				for (var i = 1; i < +SeasonsCount+1; i++){
 					var ses = (""+i).padStart(2,"0");
@@ -541,9 +542,9 @@ var searchPage = `
 				$('#infoTorrents').html(html);
 			};
 			
-			searchTorrent(OrigName,filter,function(torrList){
+			searchTorrent(OrigName,filter,ID,vt,function(torrList){
 				if (!torrList)
-					searchTorrent(Name,filter,fn);
+					searchTorrent(Name,filter,ID,vt,fn);
 				else
 					fn(torrList);
 			});
