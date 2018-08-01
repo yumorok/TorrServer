@@ -54,7 +54,7 @@ var cachePage = `
 		</div>
 		<footer class="page-footer navbar-dark bg-dark">
 			<span class="navbar-brand d-flex justify-content-center">
-			<a rel="external" style="text-decoration: none;" href="/about">About</a>
+			<a rel="external" style="text-decoration: none;" href="/about">Описание</a>
 			</span>
 		</footer>
 	</body>

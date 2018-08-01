@@ -165,19 +165,19 @@ var searchPage = `
 				<div class="col-auto">
 					<div class="btn-group btn-group-toggle" data-toggle="buttons">
 						<label id="stFBN" class="btn btn-secondary" onclick="update_search(0)">
-							<input type="radio" name="stype">Find by name
+							<input type="radio" name="stype">Поиск по имени
 						</label>
 						<label id="stDiscover" class="btn btn-secondary" onclick="update_search(1)">
-							<input type="radio" name="stype">Discover
+							<input type="radio" name="stype">Поиск по параметрам
 						</label>
                 	</div>
 				</div>
 			{{end}}
 				<div class="col-auto">
 					<div class="btn-group">
-						<a id="stMovies" class="btn btn-secondary" href="?vt=movie">Movies</a>
-						<a id="stShows" class="btn btn-secondary" href="?vt=show">Shows</a>
-						<a id="stTorrents" class="btn btn-secondary" href="?vt=torrent">Torrents</a>
+						<a id="stMovies" class="btn btn-secondary" href="?vt=movie">Фильмы</a>
+						<a id="stShows" class="btn btn-secondary" href="?vt=show">Сериалы</a>
+						<a id="stTorrents" class="btn btn-secondary" href="?vt=torrent">Торренты</a>
                 	</div>
 				</div>
 			</div>
@@ -187,7 +187,7 @@ var searchPage = `
 		<div>
 			<div class="input-group">
                 <div class="input-group-prepend">
-                    <div class="input-group-text">Filter</div>
+                    <div class="input-group-text">Фильтр</div>
                 </div>
                 <input type="text" name="search_filter" id="sFilter" placeholder="2017;S01|01x;LostFilm|Кубик в Кубе;720|1080|BDRemux" value="" class="form-control">
             </div>
@@ -197,7 +197,7 @@ var searchPage = `
         <div id="sbName">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <div class="input-group-text">Name</div>
+                    <div class="input-group-text">Имя</div>
                 </div>
                 <input type="text" name="search_movie" id="sName" value="" class="form-control">
             </div>
@@ -210,7 +210,7 @@ var searchPage = `
 					<div class="col-auto">
 						<div class="input-group">
 							<div class="input-group-prepend">
-								<div class="input-group-text">Year</div>
+								<div class="input-group-text">Год</div>
 							</div>
 							<select id="fYear">
 								<option></option>
@@ -221,7 +221,7 @@ var searchPage = `
 					<div class="col-auto">
 						<div class="input-group">
 							<div class="input-group-prepend">
-								<div class="input-group-text">Sort</div>
+								<div class="input-group-text">Сортировка</div>
 							</div>
 							<select id="fSort">
 								<option></option>
@@ -231,7 +231,7 @@ var searchPage = `
 					</div>
 					<div class="col w-100">
 						<button class="btn btn-primary w-100" type="button" data-toggle="collapse" data-target="#fGenres">
-							Genres
+							Жанры
 						</button>
 						<div class="collapse" id="fGenres">
 							{{range .Genres}}
@@ -245,7 +245,7 @@ var searchPage = `
         <br>
 		{{end}}
 
-        <button id="search" class="btn btn-primary w-100" type="button">Search</button>
+        <button id="search" class="btn btn-primary w-100" type="button">Поиск</button>
         <br>
 		<br>
 		{{if .IsTorrent}}
@@ -295,7 +295,7 @@ var searchPage = `
     </div>
     <footer class="page-footer navbar-dark bg-dark">
         <span class="navbar-brand d-flex justify-content-center">
-			<a rel="external" style="text-decoration: none;" href="/about">About</a>
+			<a rel="external" style="text-decoration: none;" href="/about">Описание</a>
 			</span>
     </footer>
 	{{if not .IsTorrent}}
@@ -327,7 +327,7 @@ var searchPage = `
 					<div id="infoTorrents"></div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
 				</div>
 			</div>
 		</div>
@@ -514,10 +514,10 @@ var searchPage = `
 			}
 			if (SeasonsCount>0){
 				vt = "show";
-				var html = '<button type="button" class="btn btn-primary" onclick="showModal(\''+OrigName+'\',\''+Name+'\',\''+Overview+'\',\''+Year+'\','+SeasonsCount+',\'\', \''+Backdrop+'\')">All</button>';
+				var html = '<button type="button" class="btn btn-primary" onclick="showModal(\''+OrigName+'\',\''+Name+'\',\''+Overview+'\',\''+Year+'\','+SeasonsCount+',\'\', \''+Backdrop+'\', \''+ID+'\')">Все</button>';
 				for (var i = 1; i < +SeasonsCount+1; i++){
 					var ses = (""+i).padStart(2,"0");
-					html += '<button type="button" class="btn btn-primary" onclick="showModal(\''+OrigName+'\',\''+Name+'\',\''+Overview+'\',\''+Year+'\','+SeasonsCount+',\''+ses+'\', \''+Backdrop+'\')">S'+ses+'</button>';
+					html += '<button type="button" class="btn btn-primary" onclick="showModal(\''+OrigName+'\',\''+Name+'\',\''+Overview+'\',\''+Year+'\','+SeasonsCount+',\''+ses+'\', \''+Backdrop+'\', \''+ID+'\')">S'+ses+'</button>';
 				}
 				$('#seasonsButtons').html(html);
 			}else{

@@ -38,26 +38,26 @@ var mainPage = `
 		</nav>
 		<div class="content">
 			<div>
-				<label for="magnet">Add torrent: </label>
+				<label for="magnet">Добавить торрент: </label>
 				<input id="magnet" class="w-100" autocomplete="off">
 			</div>
 			<div class="btn-group d-flex" role="group">
-				<button id="buttonAdd" class="btn w-100" onclick="addTorr()"><i class="fas fa-plus"></i> Add</button>
-				<button id="buttonUpload" class="btn w-100"><i class="fas fa-file-upload"></i> Upload</button>
+				<button id="buttonAdd" class="btn w-100" onclick="addTorr()"><i class="fas fa-plus"></i> Добавить</button>
+				<button id="buttonUpload" class="btn w-100"><i class="fas fa-file-upload"></i> Загрузить файл</button>
 			</div>
 			<br>
 			<div>
-				<a href="/search" rel="external" target="_blank" class="btn btn-primary w-100" role="button" ><i class="fas fa-search"></i> Search</a>
-				<a href="/torrent/playlist.m3u" rel="external" class="btn btn-primary w-100" role="button" ><i class="fas fa-th-list"></i> Playlist all torrents</a>
+				<a href="/search" rel="external" target="_blank" class="btn btn-primary w-100" role="button" ><i class="fas fa-search"></i> Поиск</a>
+				<a href="/torrent/playlist.m3u" rel="external" class="btn btn-primary w-100" role="button" ><i class="fas fa-th-list"></i> Плейлист всех торрентов</a>
 			</div>
 			<br>
-			<h3>Torrents: </h3>
+			<h3>Торренты: </h3>
 			<div id="torrents"></div>
 			<hr>
 			<div class="btn-group-vertical d-flex" role="group">
-				<a href="/settings" rel="external" class="btn btn-primary w-100" role="button"><i class="fas fa-cog"></i> Settings</a>
-				<a href="/cache" rel="external" class="btn btn-primary w-100" role="button"><i class="fas fa-info"></i> Cache</a>
-				<button id="buttonShutdown" class="btn btn-primary w-100" onclick="shutdown()"><i class="fas fa-power-off"></i> Shutdown</button>
+				<a href="/settings" rel="external" class="btn btn-primary w-100" role="button"><i class="fas fa-cog"></i> Настройки</a>
+				<a href="/cache" rel="external" class="btn btn-primary w-100" role="button"><i class="fas fa-info"></i> Кэш</a>
+				<button id="buttonShutdown" class="btn btn-primary w-100" onclick="shutdown()"><i class="fas fa-power-off"></i> Закрыть сервер</button>
 			</div>
 			<form id="uploadForm" style="display:none" action="/torrent/upload" method="post">
 				<input type="file" id="filesUpload" style="display:none" multiple onchange="uploadTorrent()" name="files"/> 
@@ -65,7 +65,7 @@ var mainPage = `
 		</div>
 		<footer class="page-footer navbar-dark bg-dark">
 			<span class="navbar-brand d-flex justify-content-center">
-			<a rel="external" style="text-decoration: none;" href="/about">About</a>
+			<a rel="external" style="text-decoration: none;" href="/about">Описание</a>
 			</span>
 		</footer>
 		
@@ -87,7 +87,7 @@ var mainPage = `
 						<a id="preloadFileLink" role="button" href="" class="btn btn-secondary wrap w-100"></a>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
 					</div>
 				</div>
 			</div>
@@ -206,10 +206,10 @@ var mainPage = `
 				html += '<div class="btn-group d-flex" role="group">';
 				html += '	<button type="button" class="btn btn-secondary wrap w-100" data-toggle="collapse" data-target="#info_'+tor.Hash+'">'+name+'</button>';
 				if (tor.Status!=1)
-					html += '	<a role="button" class="btn btn-secondary" href="'+tor.Playlist+'"><i class="fas fa-th-list"></i> Playlist</a>';
+					html += '	<a role="button" class="btn btn-secondary" href="'+tor.Playlist+'"><i class="fas fa-th-list"></i> Плейлист</a>';
 				else
 					html += '	<button type="button" class="btn btn-secondary" onclick="showPreload(\'\', \''+ tor.Hash +'\');"><i class="fas fa-info"></i></a>';
-				html += '	<button type="button" class="btn btn-secondary" onclick="removeTorrent(\''+tor.Hash+'\');"><i class="fas fa-trash-alt"></i> Remove</button>';
+				html += '	<button type="button" class="btn btn-secondary" onclick="removeTorrent(\''+tor.Hash+'\');"><i class="fas fa-trash-alt"></i> Удалить</button>';
 				html += '</div>';
 				html += '<div class="collapse" id="info_'+tor.Hash+'">';
 				for(var i in tor.Files){

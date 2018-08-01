@@ -41,93 +41,93 @@ var settingsPage = `
         <form id="settings">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <div class="input-group-text">Cache Size</div>
+                    <div class="input-group-text">Размер кэша</div>
                 </div>
                 <input id="CacheSize" class="form-control" type="number" autocomplete="off">
             </div>
 		<br>
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <div class="input-group-text">Preload Buffer Size</div>
+                    <div class="input-group-text">Размер буфера предзагрузки</div>
                 </div>
                 <input id="PreloadBufferSize" class="form-control" type="number" autocomplete="off">
             </div>
-         	<small class="form-text text-muted">Cache and Preload Buffer size in megabyte</small>
+         	<small class="form-text text-muted">Размеры кэша и буфера указываются в мегабайтах</small>
 		<br>
             <div class="form-check">
                 <input id="DisableTCP" class="form-check-input" type="checkbox" autocomplete="off">
-                <label for="DisableTCP">Disable TCP</label>
+                <label for="DisableTCP">Отключить TCP</label>
             </div>
             <div class="form-check">
                 <input id="DisableUTP" class="form-check-input" type="checkbox" autocomplete="off">
-                <label for="DisableUTP">Disable UTP</label>
+                <label for="DisableUTP">Отключить UTP</label>
             </div>
             <div class="form-check">
                 <input id="DisableUPNP" class="form-check-input" type="checkbox" autocomplete="off">
-                <label for="DisableUPNP">Disable UPNP</label>
+                <label for="DisableUPNP">Отключить UPNP</label>
             </div>
             <div class="form-check">
                 <input id="DisableDHT" class="form-check-input" type="checkbox" autocomplete="off">
-                <label for="DisableDHT">Disable DHT</label>
+                <label for="DisableDHT">Отключить DHT</label>
             </div>
             <div class="form-check">
                 <input id="DisableUpload" class="form-check-input" type="checkbox" autocomplete="off">
-                <label for="DisableUpload">Disable Upload</label>
+                <label for="DisableUpload">Отключить Отдачу</label>
             </div>
 		<br>
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <div class="input-group-text">Encryption</div>
+                    <div class="input-group-text">Шифрование</div>
                 </div>
                 <select id="Encryption" class="form-control">
-                    <option value="0">Default</option>
-                    <option value="1">Disable</option>
-                    <option value="2">Force</option>
+                    <option value="0">По умолчанию</option>
+                    <option value="1">Отключить</option>
+                    <option value="2">Принудительно</option>
                 </select>
             </div>
 		<br>
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <div class="input-group-text">Connections Limit</div>
+                    <div class="input-group-text">Количество соединений</div>
                 </div>
                 <input id="ConnectionsLimit" class="form-control" type="number" autocomplete="off">
             </div>
 		<br>
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <div class="input-group-text">Download Rate Limit</div>
+                    <div class="input-group-text">Ограничение загрузки</div>
                 </div>
                 <input id="DownloadRateLimit" class="form-control" type="number" autocomplete="off">
             </div>
 		<br>
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <div class="input-group-text">Upload Rate Limit</div>
+                    <div class="input-group-text">Ограничение отдачи</div>
                 </div>
                 <input id="UploadRateLimit" class="form-control" type="number" autocomplete="off">
             </div>
-            <small class="form-text text-muted">Download / Upload Rate Limit setup in kilobytes, 0 for infinite</small>
+            <small class="form-text text-muted">Ограничение устанавливается в Килобайтах, 0 - не ограничивать</small>
 	 	<br>
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <div class="input-group-text">Retrackers Mode</div>
+                    <div class="input-group-text">Ретрекеры</div>
                 </div>
                 <select id="RetrackersMode" class="form-control">
-         			<option value="0">Do nothing</option>
-         			<option value="1">Add retrackers</option>
-                    <option value="2">Remove retrackers</option>
+         			<option value="0">Оставить как есть</option>
+         			<option value="1">Добавить</option>
+                    <option value="2">Удалить</option>
                 </select>
             </div>
         </form>
         <br>
         <div class="btn-group d-flex" role="group">
-            <button id="buttonSave" class="btn btn-primary w-100" data-icon="check" onclick="saveSettings()"><i class="far fa-save"></i> Save</button>
-         	<button id="buttonRefresh" class="btn btn-primary w-100" data-icon="refresh" onclick="refreshSettings()"><i class="fas fa-sync-alt"></i> Refresh</button>
+            <button id="buttonSave" class="btn btn-primary w-100" data-icon="check" onclick="saveSettings()"><i class="far fa-save"></i> Сохранить</button>
+         	<button id="buttonRefresh" class="btn btn-primary w-100" data-icon="refresh" onclick="refreshSettings()"><i class="fas fa-sync-alt"></i> Получить с сервера</button>
         </div>
     </div>
     <footer class="page-footer navbar-dark bg-dark">
         <span class="navbar-brand d-flex justify-content-center">
-         <a rel="external" style="text-decoration: none;" href="/about">About</a>
+         <a rel="external" style="text-decoration: none;" href="/about">Описание</a>
          </span>
     </footer>
     <script>
