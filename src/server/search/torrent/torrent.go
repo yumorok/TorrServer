@@ -106,17 +106,13 @@ func removeDublicate(list []*parser.Torrent) []*parser.Torrent {
 	for _, t := range list {
 		mag := getMagnet(t.Magnet)
 		if torr, ok := magnets[mag.InfoHash.HexString()]; !ok {
-			if mag.DisplayName != t.Name {
-				mag.DisplayName = t.Name
-				t.Magnet = mag.String()
-			}
+			mag.DisplayName = t.Name
+			t.Magnet = mag.String()
 			magnets[mag.InfoHash.HexString()] = t
 		} else {
 			smag := getMagnet(torr.Magnet)
 			mag = concatMagnet(mag, smag)
-			if mag.DisplayName != torr.Name {
-				mag.DisplayName = torr.Name
-			}
+			mag.DisplayName = torr.Name
 			torr.Magnet = mag.String()
 			if torr.PeersDl < t.PeersDl {
 				torr.PeersDl = t.PeersDl
