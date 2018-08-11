@@ -48,6 +48,7 @@ func initTorrent(e *echo.Echo) {
 type TorrentJsonRequest struct {
 	Link     string `json:",omitempty"`
 	Hash     string `json:",omitempty"`
+	Title    string `json:",omitempty"`
 	Info     string `json:",omitempty"`
 	DontSave bool   `json:",omitempty"`
 }
@@ -86,6 +87,10 @@ func torrentAdd(c echo.Context) error {
 	if err != nil {
 		fmt.Println("Error get magnet:", jreq.Hash, err)
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	if jreq.Title != "" {
+		magnet.DisplayName = jreq.Title
 	}
 
 	err = helpers.Add(bts, *magnet, !jreq.DontSave)
