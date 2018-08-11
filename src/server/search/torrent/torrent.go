@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strings"
 	"sync"
-	"time"
 
 	"server/search/parser"
 
@@ -57,12 +56,9 @@ func Search(query string, filterStrings []string) []*parser.Torrent {
 	}()
 	wa.Wait()
 	filterStrings = append(filterStrings, query)
-	fmt.Println("Filtering...", filterStrings)
-	start := time.Now()
-	defer func() {
-		fmt.Println("End filtering", time.Since(start).Seconds())
-	}()
-	return filter(list, filterStrings)
+	list = filter(list, filterStrings)
+	fmt.Println("Found", len(list), "items")
+	return list
 }
 
 func filter(list []*parser.Torrent, filterStrings []string) []*parser.Torrent {
