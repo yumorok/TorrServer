@@ -153,6 +153,9 @@ func getTorrent(c echo.Context) []*parser.Torrent {
 		return nil
 	}
 	torrs := torrent.Search(query, filter)
+	if len(torrs) == 0 {
+		torrs = torrent.Search(query, nil)
+	}
 	sort.Slice(torrs, func(i, j int) bool {
 		gri := getGrTorr(torrs[i])
 		grj := getGrTorr(torrs[j])
