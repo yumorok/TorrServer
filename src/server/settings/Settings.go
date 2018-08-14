@@ -19,6 +19,7 @@ func init() {
 	sets.PreloadBufferSize = 20 * 1024 * 1024
 	sets.ConnectionsLimit = 100
 	sets.RetrackersMode = 1
+	sets.DisableDHT = true
 	StartTime = time.Now()
 }
 
