@@ -506,8 +506,10 @@ var searchPage = `
 			$('#loader').fadeIn(700);
 			var vt = "movie";
 			var filter = [];
-			if (Year && !Season && !(+SeasonsCount))
-				filter.push(Year);
+			if (Year && !Season && !(+SeasonsCount)){
+				years = Year+"|"+(+Year-1);
+				filter.push(years);
+			}
 			if (Season){
 				var ses = Season.padStart(2,"0");
 				filter.push('S'+ses+'|'+ses+'x');
