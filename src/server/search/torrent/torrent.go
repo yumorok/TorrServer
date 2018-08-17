@@ -24,6 +24,7 @@ func Search(query string, filterStrings []string) []*parser.Torrent {
 			fmt.Println("Rutor search err:", err)
 			return
 		}
+		fmt.Println("Rutor:", len(lst))
 		mu.Lock()
 		list = append(list, lst...)
 		mu.Unlock()
@@ -37,6 +38,7 @@ func Search(query string, filterStrings []string) []*parser.Torrent {
 			fmt.Println("Yohoho search err:", err)
 			return
 		}
+		fmt.Println("Yohoho:", len(lst))
 		mu.Lock()
 		list = append(list, lst...)
 		mu.Unlock()
@@ -50,14 +52,16 @@ func Search(query string, filterStrings []string) []*parser.Torrent {
 			fmt.Println("TParser search err:", err)
 			return
 		}
+		fmt.Println("TParser:", len(lst))
 		mu.Lock()
 		list = append(list, lst...)
 		mu.Unlock()
 	}()
 	wa.Wait()
 	filterStrings = append(filterStrings, query)
+	fmt.Println("Before filter:", len(list))
 	list = filter(list, filterStrings)
-	fmt.Println("Found", len(list), "items")
+	fmt.Println("Filtered:", len(list))
 	return list
 }
 
