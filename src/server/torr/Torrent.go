@@ -276,6 +276,7 @@ func (t *Torrent) Preload(file *torrent.File, size int64) {
 	}
 	defer func() {
 		t.CloseReader(readerPre)
+		t.expiredTime = time.Now().Add(time.Minute * 1)
 	}()
 
 	if endPreloadOffset > 0 {
@@ -287,6 +288,7 @@ func (t *Torrent) Preload(file *torrent.File, size int64) {
 		readerPost.SetReadahead(buff5mb)
 		defer func() {
 			t.CloseReader(readerPost)
+			t.expiredTime = time.Now().Add(time.Minute * 1)
 		}()
 	}
 
