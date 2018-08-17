@@ -54,11 +54,13 @@ func (p *TParser) findTorrents(urls []string) ([]*Torrent, error) {
 		u := urls[i]
 		body, _, er := readPage(u)
 		if er != nil {
+			fmt.Println("Error get:", u, err)
 			err = er
 		} else {
-			//fmt.Println("Parse:", u)
 			tors, er := p.parse(body)
+			fmt.Println("Parse:", u, len(tors))
 			if err != nil {
+				fmt.Println("Error parse:", u, err)
 				err = er
 			} else {
 				mu.Lock()
