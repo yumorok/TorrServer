@@ -281,8 +281,8 @@ var searchPage = `
 		<div id="torrents" class="content">
 			{{range .Items}}
 			<div class="btn-group d-flex" role="group">
-				<button type="button" class="btn btn-secondary wrap w-100" onclick="doTorrent('{{.OriginalName}}', this)"><i class="fas fa-plus"></i>{{.Name}} {{.Year}}{{if gt .Seasons -1}} | ▲ {{.Seasons}} | ▼ {{.Episodes}}{{end}}</button>
-				<a type="button" class="btn btn-secondary" href="/torrent/play?link={{.OriginalName}}&m3u=true">...</a>
+				<a type="button" class="btn btn-secondary w-100 wrap" href="/torrent/play?link={{.OriginalName}}&m3u=true">{{.Name}} {{.Year}}{{if gt .Seasons -1}} | ▲ {{.Seasons}} | ▼ {{.Episodes}}{{end}}</a>
+				<button type="button" class="btn btn-secondary" onclick="doTorrent('{{.OriginalName}}', this)"><i class="fas fa-plus"></i></button>
 			</div>
 			{{end}}
 		</div>
