@@ -53,7 +53,7 @@ var mainPage = `
 			<br>
 			<h3>Торренты: </h3>
 			<div id="torrents"></div>
-			<hr>
+			<br>
 			<div class="btn-group-vertical d-flex" role="group">
 				<a href="/settings" rel="external" class="btn btn-primary w-100" role="button"><i class="fas fa-cog"></i> Настройки</a>
 				<a href="/cache" rel="external" class="btn btn-primary w-100" role="button"><i class="fas fa-info"></i> Кэш</a>
@@ -196,7 +196,7 @@ var mainPage = `
 			}
 			
 			function tor2Html(tor){
-				var html = '<hr>';
+				var html = '';
 				var name = "";
 				if (tor.Status==1)
 					name = tor.Name+' '+humanizeSize(tor.Length)+' '+tor.Hash;
@@ -222,7 +222,7 @@ var mainPage = `
 					html += '		<button type="button" class="btn btn-secondary" onclick="showPreload(\''+ file.Preload +'\', \''+ file.Link +'\', \''+ tor.Hash +'\');"><i class="fas fa-info"></i></button>';
 					html += '	</div>';
 				}
-				html += '</div>';
+				html += '<hr></div>';
 				return html;
 			}
 			
